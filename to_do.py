@@ -60,23 +60,23 @@ class Widgets:
         self.widget = ''
         self.width = 15
         self.fg = '#556B2F'
-        master.geometry("250x500")
+        master.geometry("405x340")
 
-    def set_name(self, name):
+    def set_name(self, name, r, c):
         self.widget = tkinter.Label(self.master, text=name)
-        self.widget.pack()
+        self.widget.grid(row=r, column=c)
 
     def input_text(self):
         self.widget = tkinter.Entry(self.master, width=self.width)
-        self.widget.pack()
+        self.widget.grid(row=4, column=1)
 
-    def display_button(self, txt, command):
+    def display_button(self, txt, command, r, c):
         self.widget = tkinter.Button(root, text=txt, bg=self.bg, command=command)
-        self.widget.pack()
+        self.widget.grid(row=r, column=c)
 
     def to_do_box(self):
         self.widget = tkinter.Listbox(root)
-        self.widget.pack()
+        self.widget.grid(row=5, column=1, rowspan=6)
 
 
 # functions
@@ -200,28 +200,29 @@ btn_exit = Widgets(root)
 list_box = Widgets(root)
 
 # widgets
-label_title.set_name('To do List')
-task_number_display.set_name('')
+label_title.set_name('To do List', 1, 0)
+task_number_display.set_name('', 2, 1)
 text_input.input_text()
-btn_shows_tasks.display_button("Show all to dos", show_to_do_list)
-btn_add_task.display_button("Add new to do", add_to_do)
+btn_shows_tasks.display_button("Show all to dos", show_to_do_list, 2, 0)
+btn_add_task.display_button("Add new to do", add_to_do, 4, 0)
 # btn_delete_all.display_button('Delete all to dos', to_do_list.delete_all_tasks)
-btn_delete_one.display_button('Delete to do', remove_by_name)
-btn_sort_asc.display_button('Sort tasks (asc)', sort_asc)
-btn_sort_desc.display_button('Sort tasks (desc', sort_desc)
-btn_choose_random.display_button('Choose random to do', random_choice)
-btn_number_of_to_dos.display_button('Number of to dos', to_do_list_length)
-btn_reset_tasks.display_button('Reset to do list', reset_tasks)
-btn_exit.display_button('Exit', exit)
-label_display.set_name('')
+btn_delete_one.display_button('Delete to do', remove_by_name, 5, 0)
+btn_sort_asc.display_button('Sort tasks (asc)', sort_asc, 6, 0)
+btn_sort_desc.display_button('Sort tasks (desc', sort_desc, 7, 0)
+btn_choose_random.display_button('Choose random to do', random_choice, 8, 0)
+btn_number_of_to_dos.display_button('Number of to dos', to_do_list_length, 9, 0)
+btn_reset_tasks.display_button('Reset to do list', reset_tasks, 11, 0)
+btn_exit.display_button('Exit', exit, 12, 0)
+label_display.set_name('', 3, 1)
 list_box.to_do_box()
 
 
 # main loop
 root.mainloop()
+print_text_based_list = False
 
 # main loop
-while True:
+while print_text_based_list:
     print_menu()
     choice = input("\n> ").upper()
 
