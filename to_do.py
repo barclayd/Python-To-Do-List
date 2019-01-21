@@ -9,6 +9,7 @@ root = tkinter.Tk()
 # classes
 class Tasks:
     def __init__(self):
+        # sample data for testing
         self.tasks = ["Shopping", "Tidy room", "Buy milk", "Pack bag", "Check finances"]
 
     def add_new_task(self, new_task):
@@ -59,6 +60,7 @@ class Widgets:
         self.widget = ''
         self.width = 15
         self.fg = '#556B2F'
+        master.geometry("250x500")
 
     def set_name(self, name):
         self.widget = tkinter.Label(self.master, text=name)
@@ -106,6 +108,8 @@ Q) Quit the program
 def add_to_do():
     add_task = input("What task would you like to add? >")
     to_do_list.add_new_task(add_task)
+    clear_to_do_box()
+    update_to_do_box()
 
 
 def sort_asc():
@@ -147,6 +151,16 @@ def to_do_list_length():
     print(len(to_do_list.tasks))
 
 
+def update_to_do_box():
+    clear_to_do_box()
+    for to_do in to_do_list.tasks:
+        list_box.widget.insert("end", to_do)
+
+
+def clear_to_do_box():
+    list_box.widget.delete(0, "end")
+
+
 # class instances
 to_do_list = Tasks()
 label_title = Widgets(root)
@@ -166,7 +180,8 @@ list_box = Widgets(root)
 label_title.set_name('To do List')
 label_display.set_name('')
 text_input.input_text()
-btn_add_task.display_button("New to do", add_to_do)
+btn_add_task.display_button("Add new to do", add_to_do)
+btn_add_task.display_button("Show all to dos", update_to_do_box)
 btn_delete_all.display_button('Delete all to dos', to_do_list.delete_all_tasks)
 btn_delete_one.display_button('Delete to do', remove_by_index)
 btn_sort_asc.display_button('Sort tasks (asc)', sort_asc)
