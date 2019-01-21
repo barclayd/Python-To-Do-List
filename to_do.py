@@ -108,28 +108,35 @@ Q) Quit the program
 def add_to_do():
     add_task = input("What task would you like to add? >")
     to_do_list.add_new_task(add_task)
-    clear_to_do_box()
-    update_to_do_box()
+    clear_to_do_list()
+    show_to_do_list()
 
 
 def sort_asc():
+    clear_to_do_list()
     to_do_list.tasks.sort()
+    show_to_do_list()
     print("Your to do list has been sorted in ascending order.")
 
 
 def sort_desc():
+    clear_to_do_list()
     to_do_list.tasks.sort()
     to_do_list.tasks.reverse()
+    show_to_do_list()
     print("Your to do list has been sorted in descending order.")
 
 
 def random_choice():
-    print(random.choice(to_do_list.tasks))
+    task = (random.choice(to_do_list.tasks))
+    label_display.widget['text'] = task
+    print(task)
 
 
 def reset_tasks():
-    answer = input("Are you sure you want to reset the list. (Y)es or (N)o? >").upper()
-    to_do_list.reset_tasks(answer)
+    # answer = input("Are you sure you want to reset the list. (Y)es or (N)o? >").upper()
+    to_do_list.reset_tasks('Y')
+    show_to_do_list()
 
 
 def remove_by_name():
@@ -148,16 +155,17 @@ def search_to_dos():
 
 
 def to_do_list_length():
-    print(len(to_do_list.tasks))
+    number_of_to_dos = len(to_do_list.tasks)
+    msg = "Number of to dos to complete: {}".format(number_of_to_dos)
+    task_number_display.widget['text'] = msg
 
-
-def update_to_do_box():
-    clear_to_do_box()
+def show_to_do_list():
+    clear_to_do_list()
     for to_do in to_do_list.tasks:
         list_box.widget.insert("end", to_do)
 
 
-def clear_to_do_box():
+def clear_to_do_list():
     list_box.widget.delete(0, "end")
 
 
@@ -165,31 +173,38 @@ def clear_to_do_box():
 to_do_list = Tasks()
 label_title = Widgets(root)
 label_display = Widgets(root)
+task_number_display = Widgets(root)
 text_input = Widgets(root)
 btn_add_task = Widgets(root)
+btn_shows_tasks = Widgets(root)
 btn_delete_all = Widgets(root)
 btn_delete_one = Widgets(root)
 btn_sort_asc = Widgets(root)
 btn_sort_desc = Widgets(root)
 btn_choose_random = Widgets(root)
 btn_number_of_to_dos = Widgets(root)
+btn_reset_tasks = Widgets(root)
 btn_exit = Widgets(root)
 list_box = Widgets(root)
 
 # widgets
 label_title.set_name('To do List')
-label_display.set_name('')
+task_number_display.set_name('')
 text_input.input_text()
+btn_shows_tasks.display_button("Show all to dos", show_to_do_list)
 btn_add_task.display_button("Add new to do", add_to_do)
-btn_add_task.display_button("Show all to dos", update_to_do_box)
-btn_delete_all.display_button('Delete all to dos', to_do_list.delete_all_tasks)
+# btn_delete_all.display_button('Delete all to dos', to_do_list.delete_all_tasks)
 btn_delete_one.display_button('Delete to do', remove_by_index)
 btn_sort_asc.display_button('Sort tasks (asc)', sort_asc)
 btn_sort_desc.display_button('Sort tasks (desc', sort_desc)
 btn_choose_random.display_button('Choose random to do', random_choice)
 btn_number_of_to_dos.display_button('Number of to dos', to_do_list_length)
+btn_reset_tasks.display_button('Reset to do list', reset_tasks)
 btn_exit.display_button('Exit', exit)
+label_display.set_name('')
 list_box.to_do_box()
+
+
 # main loop
 root.mainloop()
 
