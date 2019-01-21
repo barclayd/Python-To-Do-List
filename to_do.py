@@ -106,10 +106,15 @@ Q) Quit the program
 
 
 def add_to_do():
-    add_task = input("What task would you like to add? >")
-    to_do_list.add_new_task(add_task)
-    clear_to_do_list()
-    show_to_do_list()
+    # add_task = input("What task would you like to add? >")
+    add_task = text_input.widget.get()
+    if not add_task == "":
+        to_do_list.add_new_task(add_task)
+        text_input.widget.delete(0, 'end')
+        clear_to_do_list()
+        show_to_do_list()
+    else:
+        label_display.widget['text'] = 'Please enter a task'
 
 
 def sort_asc():
@@ -140,12 +145,18 @@ def reset_tasks():
 
 
 def remove_by_name():
-    delete_task = input("What task would you want to remove?")
-    to_do_list.delete_task_name(delete_task)
+    # delete_task = input("What task would you want to remove?")
+    # to_do_list.delete_task_name(delete_task)
+    delete_task = list_box.widget.get('active')
+    if delete_task in to_do_list.tasks:
+        clear_to_do_list()
+        to_do_list.delete_task_name(delete_task)
+        show_to_do_list()
 
 
 def remove_by_index():
     index = int(input("What task number do you want to remove?"))
+    # index = list_box.widget.get('active')
     to_do_list.delete_task_number(index)
 
 
@@ -158,6 +169,7 @@ def to_do_list_length():
     number_of_to_dos = len(to_do_list.tasks)
     msg = "Number of to dos to complete: {}".format(number_of_to_dos)
     task_number_display.widget['text'] = msg
+
 
 def show_to_do_list():
     clear_to_do_list()
@@ -194,7 +206,7 @@ text_input.input_text()
 btn_shows_tasks.display_button("Show all to dos", show_to_do_list)
 btn_add_task.display_button("Add new to do", add_to_do)
 # btn_delete_all.display_button('Delete all to dos', to_do_list.delete_all_tasks)
-btn_delete_one.display_button('Delete to do', remove_by_index)
+btn_delete_one.display_button('Delete to do', remove_by_name)
 btn_sort_asc.display_button('Sort tasks (asc)', sort_asc)
 btn_sort_desc.display_button('Sort tasks (desc', sort_desc)
 btn_choose_random.display_button('Choose random to do', random_choice)
