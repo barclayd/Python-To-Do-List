@@ -1,6 +1,7 @@
 import os
 import random
 import tkinter
+from tkinter import messagebox
 
 # root window
 root = tkinter.Tk()
@@ -41,9 +42,9 @@ class Tasks:
             print("All to dos have been deleted.")
 
     def reset_tasks(self, response):
-        if response == "Y":
+        if response:
             self.tasks = []
-        elif response == "N":
+        else:
             pass
 
     def print_tasks(self):
@@ -77,6 +78,9 @@ class Widgets:
     def to_do_box(self):
         self.widget = tkinter.Listbox(root)
         self.widget.grid(row=5, column=1, rowspan=6)
+
+    def alert(self, title, message):
+        self.widget = tkinter.messagebox.showwarning(title, message)
 
 
 # functions
@@ -114,7 +118,7 @@ def add_to_do():
         clear_to_do_list()
         show_to_do_list()
     else:
-        label_display.widget['text'] = 'Please enter a task'
+        alert_text_input.alert('No Task Entered', 'Please enter a task')
 
 
 def sort_asc():
@@ -140,7 +144,8 @@ def random_choice():
 
 def reset_tasks():
     # answer = input("Are you sure you want to reset the list. (Y)es or (N)o? >").upper()
-    to_do_list.reset_tasks('Y')
+    confirm = tkinter.messagebox.askyesno("Delete All To Dos", "Are you sure you wish to delete all to dos in the list?")
+    to_do_list.reset_tasks(confirm)
     show_to_do_list()
 
 
@@ -156,7 +161,6 @@ def remove_by_name():
 
 def remove_by_index():
     index = int(input("What task number do you want to remove?"))
-    # index = list_box.widget.get('active')
     to_do_list.delete_task_number(index)
 
 
@@ -198,6 +202,8 @@ btn_number_of_to_dos = Widgets(root)
 btn_reset_tasks = Widgets(root)
 btn_exit = Widgets(root)
 list_box = Widgets(root)
+alert_text_input = Widgets(root)
+delete_confirmation_message = Widgets(root)
 
 # widgets
 label_title.set_name('To do List', 1, 0)
@@ -211,18 +217,21 @@ btn_sort_asc.display_button('Sort tasks (asc)', sort_asc, 6, 0)
 btn_sort_desc.display_button('Sort tasks (desc', sort_desc, 7, 0)
 btn_choose_random.display_button('Choose random to do', random_choice, 8, 0)
 btn_number_of_to_dos.display_button('Number of to dos', to_do_list_length, 9, 0)
-btn_reset_tasks.display_button('Reset to do list', reset_tasks, 11, 0)
+btn_reset_tasks.display_button('Delete All Todos', reset_tasks, 11, 0)
 btn_exit.display_button('Exit', exit, 12, 0)
 label_display.set_name('', 3, 1)
 list_box.to_do_box()
 
 
 # main loop
+# functions to run on start up
+show_to_do_list()
 root.mainloop()
-print_text_based_list = False
+print_list_to_console = False
+
 
 # main loop
-while print_text_based_list:
+while print_list_to_console:
     print_menu()
     choice = input("\n> ").upper()
 
